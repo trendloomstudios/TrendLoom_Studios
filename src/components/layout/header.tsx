@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   Search,
@@ -15,15 +16,25 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
 
 interface HeaderProps {
   isConfigured?: boolean;
   onOpenMobileMenu?: () => void;
 }
 
-export function Header({ isConfigured = false, onOpenMobileMenu }: HeaderProps) {
+export function Header({ isConfigured = true, onOpenMobileMenu }: HeaderProps) {
+  const router = useRouter();
   const [showQuickMenu, setShowQuickMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleSignOut = async () => {
+    setShowUserMenu(false);
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <header className="h-16 border-b border-slate-200 bg-white px-3 sm:px-6 flex items-center justify-between sticky top-0 z-20 shadow-2xs gap-2">
@@ -61,24 +72,12 @@ export function Header({ isConfigured = false, onOpenMobileMenu }: HeaderProps) 
         {/* Database Connection Pill */}
         <Link
           href="/settings"
-          className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium border transition-colors ${
-            isConfigured
-              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-              : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
-          }`}
-          title={
-            isConfigured
-              ? "Supabase connected and active"
-              : "Running in interactive demo mode with mock data"
-          }
+          className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium border transition-colors bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+          title="Supabase PostgreSQL Connected & Active"
         >
-          <Database className="h-3.5 w-3.5 shrink-0" />
-          <span className="hidden sm:inline">{isConfigured ? "Supabase Live" : "Demo Mode"}</span>
-          {isConfigured ? (
-            <CheckCircle2 className="h-3 w-3 text-emerald-600 shrink-0" />
-          ) : (
-            <AlertCircle className="h-3 w-3 text-amber-600 shrink-0" />
-          )}
+          <Database className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+          <span className="hidden sm:inline">Supabase Live</span>
+          <CheckCircle2 className="h-3 w-3 text-emerald-600 shrink-0" />
         </Link>
 
         {/* Quick Add Dropdown */}
@@ -156,7 +155,7 @@ export function Header({ isConfigured = false, onOpenMobileMenu }: HeaderProps) 
             aria-label="User menu"
           >
             <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-semibold">
-              AM
+              TL
             </div>
           </button>
 
@@ -168,8 +167,8 @@ export function Header({ isConfigured = false, onOpenMobileMenu }: HeaderProps) 
               />
               <div className="absolute right-0 mt-2 w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-xl z-40 text-xs">
                 <div className="px-2 py-1.5 border-b border-slate-100">
-                  <p className="font-semibold text-slate-900">Alex Morgan</p>
-                  <p className="text-[11px] text-slate-500">alex@cedo.io</p>
+                  <p className="font-semibold text-slate-900">TrendLoom Account</p>
+                  <p className="text-[11px] text-slate-500">Authenticated User</p>
                 </div>
                 <div className="py-1">
                   <Link
@@ -180,14 +179,13 @@ export function Header({ isConfigured = false, onOpenMobileMenu }: HeaderProps) 
                     <User className="h-3.5 w-3.5 text-slate-500" />
                     <span>Account Settings</span>
                   </Link>
-                  <Link
-                    href="/login"
-                    onClick={() => setShowUserMenu(false)}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-red-600 hover:bg-red-50"
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-red-600 hover:bg-red-50 text-left"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     <span>Sign out</span>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </>

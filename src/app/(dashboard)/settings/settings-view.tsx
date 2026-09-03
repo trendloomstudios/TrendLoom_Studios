@@ -50,15 +50,9 @@ export function SettingsView({ isConfigured }: { isConfigured: boolean }) {
             </CardDescription>
           </div>
           <div className="self-start sm:self-auto">
-            {isConfigured ? (
-              <Badge variant="success" className="gap-1 px-2.5 py-1">
-                <CheckCircle2 className="h-3 w-3" /> Live Connected
-              </Badge>
-            ) : (
-              <Badge variant="warning" className="gap-1 px-2.5 py-1">
-                <AlertCircle className="h-3 w-3" /> Demo Mode (Mock Data)
-              </Badge>
-            )}
+            <Badge variant="success" className="gap-1 px-2.5 py-1">
+              <CheckCircle2 className="h-3 w-3" /> Live Connected
+            </Badge>
           </div>
         </CardHeader>
         <CardContent className="p-4 sm:p-5 space-y-4">

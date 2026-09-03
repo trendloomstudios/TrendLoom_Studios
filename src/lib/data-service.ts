@@ -1,21 +1,35 @@
 import { createClient as createServerClient } from "@/lib/supabase/server";
-import {
-  mockCompanies,
-  mockContacts,
-  mockDeals,
-  mockLeads,
-  mockTasks,
-  mockActivities,
-  mockDashboardMetrics,
-} from "./mock-data";
 import { Lead, Deal, Contact, Company, Task, Activity, DashboardMetrics } from "@/types/crm";
-
 import { isSupabaseConfigured } from "./supabase/config";
 export { isSupabaseConfigured };
 
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
+  const emptyMetrics: DashboardMetrics = {
+    total_revenue: 0,
+    pipeline_value: 0,
+    active_deals_count: 0,
+    win_rate: 0,
+    active_leads_count: 0,
+    pending_tasks_count: 0,
+    deals_by_stage: {
+      discovery: { count: 0, total_amount: 0 },
+      proposal: { count: 0, total_amount: 0 },
+      negotiation: { count: 0, total_amount: 0 },
+      won: { count: 0, total_amount: 0 },
+      lost: { count: 0, total_amount: 0 },
+    },
+    monthly_revenue_history: [
+      { month: "Nov", won: 0, pipeline: 0 },
+      { month: "Dec", won: 0, pipeline: 0 },
+      { month: "Jan", won: 0, pipeline: 0 },
+      { month: "Feb", won: 0, pipeline: 0 },
+      { month: "Mar", won: 0, pipeline: 0 },
+    ],
+    recent_activities: [],
+  };
+
   if (!isSupabaseConfigured()) {
-    return mockDashboardMetrics;
+    return emptyMetrics;
   }
 
   try {
@@ -66,18 +80,18 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
       active_leads_count: leadCount || 0,
       pending_tasks_count: taskCount || 0,
       deals_by_stage: dealsByStage,
-      monthly_revenue_history: mockDashboardMetrics.monthly_revenue_history,
-      recent_activities: (activities as Activity[]) || mockActivities,
+      monthly_revenue_history: emptyMetrics.monthly_revenue_history,
+      recent_activities: (activities as Activity[]) || [],
     };
   } catch (err) {
-    console.warn("Failed to fetch dashboard metrics from Supabase, using mock data:", err);
-    return mockDashboardMetrics;
+    console.warn("Error fetching dashboard metrics from Supabase:", err);
+    return emptyMetrics;
   }
 }
 
 export async function getLeads(): Promise<Lead[]> {
   if (!isSupabaseConfigured()) {
-    return mockLeads;
+    return [];
   }
 
   try {
@@ -87,18 +101,18 @@ export async function getLeads(): Promise<Lead[]> {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error || !data?.length) {
-      return mockLeads;
+    if (error || !data) {
+      return [];
     }
     return data as Lead[];
   } catch {
-    return mockLeads;
+    return [];
   }
 }
 
 export async function getDeals(): Promise<Deal[]> {
   if (!isSupabaseConfigured()) {
-    return mockDeals;
+    return [];
   }
 
   try {
@@ -108,8 +122,8 @@ export async function getDeals(): Promise<Deal[]> {
       .select("*, companies(name), contacts(first_name, last_name)")
       .order("created_at", { ascending: false });
 
-    if (error || !data?.length) {
-      return mockDeals;
+    if (error || !data) {
+      return [];
     }
 
     return (data as Array<Deal & { companies?: { name: string }; contacts?: { first_name: string; last_name: string } }>).map((d) => ({
@@ -118,13 +132,13 @@ export async function getDeals(): Promise<Deal[]> {
       contact_name: d.contacts ? `${d.contacts.first_name} ${d.contacts.last_name}` : undefined,
     })) as Deal[];
   } catch {
-    return mockDeals;
+    return [];
   }
 }
 
 export async function getContacts(): Promise<Contact[]> {
   if (!isSupabaseConfigured()) {
-    return mockContacts;
+    return [];
   }
 
   try {
@@ -134,8 +148,8 @@ export async function getContacts(): Promise<Contact[]> {
       .select("*, companies(name)")
       .order("created_at", { ascending: false });
 
-    if (error || !data?.length) {
-      return mockContacts;
+    if (error || !data) {
+      return [];
     }
 
     return (data as Array<Contact & { companies?: { name: string } }>).map((c) => ({
@@ -143,13 +157,13 @@ export async function getContacts(): Promise<Contact[]> {
       company_name: c.companies?.name,
     })) as Contact[];
   } catch {
-    return mockContacts;
+    return [];
   }
 }
 
 export async function getCompanies(): Promise<Company[]> {
   if (!isSupabaseConfigured()) {
-    return mockCompanies;
+    return [];
   }
 
   try {
@@ -159,8 +173,8 @@ export async function getCompanies(): Promise<Company[]> {
       .select("*, contacts(count), deals(count)")
       .order("created_at", { ascending: false });
 
-    if (error || !data?.length) {
-      return mockCompanies;
+    if (error || !data) {
+      return [];
     }
 
     return (data as Array<Company & { contacts?: { count: number }[]; deals?: { count: number }[] }>).map((c) => ({
@@ -169,13 +183,13 @@ export async function getCompanies(): Promise<Company[]> {
       deal_count: c.deals?.[0]?.count || 0,
     })) as Company[];
   } catch {
-    return mockCompanies;
+    return [];
   }
 }
 
 export async function getTasks(): Promise<Task[]> {
   if (!isSupabaseConfigured()) {
-    return mockTasks;
+    return [];
   }
 
   try {
@@ -185,11 +199,11 @@ export async function getTasks(): Promise<Task[]> {
       .select("*")
       .order("due_date", { ascending: true });
 
-    if (error || !data?.length) {
-      return mockTasks;
+    if (error || !data) {
+      return [];
     }
     return data as Task[];
   } catch {
-    return mockTasks;
+    return [];
   }
 }

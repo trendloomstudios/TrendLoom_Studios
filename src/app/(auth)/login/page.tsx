@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowRight, Mail, Lock, AlertCircle } from "lucide-react";
+import { Sparkles, Mail, Lock, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
@@ -33,12 +33,6 @@ export default function LoginPage() {
       router.push("/");
       router.refresh();
     }
-  };
-
-  const handleDemoSignIn = () => {
-    document.cookie = "demo_mode=true; path=/; max-age=86400; SameSite=Lax";
-    router.push("/deals");
-    router.refresh();
   };
 
   return (
@@ -76,7 +70,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="alex@cedo.io"
+                  placeholder="alex@company.com"
                   className="pl-9 bg-slate-900/60 border-slate-700 text-white placeholder:text-slate-500"
                 />
               </div>
@@ -87,12 +81,6 @@ export default function LoginPage() {
                 <label className="text-xs font-semibold text-slate-300">
                   Password
                 </label>
-                <a
-                  href="#"
-                  className="text-[11px] text-blue-400 hover:text-blue-300"
-                >
-                  Forgot password?
-                </a>
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -116,29 +104,13 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          {/* Demo Sandbox Entry */}
-          <div className="pt-2 border-t border-slate-700/80">
-            <p className="text-[11px] text-slate-400 text-center mb-3">
-              Want to explore without configuring Supabase first?
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleDemoSignIn}
-              className="w-full border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white text-xs gap-2"
-            >
-              <span>Enter Interactive Demo Workspace</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-
-          <div className="text-center text-xs text-slate-400">
+          <div className="text-center text-xs text-slate-400 pt-3 border-t border-slate-700/80">
             Don&apos;t have an account?{" "}
             <Link
               href="/signup"
               className="font-medium text-blue-400 hover:text-blue-300 underline underline-offset-2"
             >
-              Create organization
+              Create organization account
             </Link>
           </div>
         </div>

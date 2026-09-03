@@ -38,7 +38,7 @@ export default function SignupPage() {
       setLoading(false);
     } else {
       setSuccessMsg(
-        "Account created! Check your email for verification, or enter demo mode below."
+        "Account created! Please check your email to verify your account or proceed to sign in."
       );
       setLoading(false);
     }
@@ -74,7 +74,7 @@ export default function SignupPage() {
               </div>
               <Link href="/login">
                 <Button className="w-full bg-blue-600 hover:bg-blue-500">
-                  Return to Sign In
+                  Proceed to Sign In
                 </Button>
               </Link>
             </div>
@@ -152,7 +152,7 @@ export default function SignupPage() {
                 disabled={loading}
                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-md mt-2"
               >
-                {loading ? "Registering organization..." : "Create Free Account"}
+                {loading ? "Registering organization..." : "Create Organization Account"}
               </Button>
             </form>
           )}
