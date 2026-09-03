@@ -12,6 +12,7 @@ import {
   Settings,
   Sparkles,
   ChevronRight,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,22 +26,47 @@ const navigation = [
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+  isMobile?: boolean;
+}
+
+export function Sidebar({ onClose, isMobile = false }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-slate-200 bg-slate-900 text-slate-300 flex flex-col shrink-0 h-screen sticky top-0">
+    <aside
+      className={cn(
+        "bg-slate-900 text-slate-300 flex flex-col shrink-0 h-screen",
+        isMobile
+          ? "w-72 shadow-2xl z-50 fixed inset-y-0 left-0"
+          : "hidden md:flex md:w-64 border-r border-slate-800 sticky top-0"
+      )}
+    >
       {/* Brand Header */}
-      <div className="h-16 flex items-center px-6 border-b border-slate-800 gap-3">
-        <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
-          <Sparkles className="h-5 w-5 text-blue-100" />
-        </div>
-        <div>
-          <div className="text-white font-bold tracking-tight text-base flex items-center gap-1.5">
-            CEDO <span className="text-xs px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-semibold">CRM</span>
+      <div className="h-16 flex items-center justify-between px-5 border-b border-slate-800">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
+            <Sparkles className="h-5 w-5 text-blue-100" />
           </div>
-          <p className="text-[11px] text-slate-400">Enterprise Growth Suite</p>
+          <div>
+            <div className="text-white font-bold tracking-tight text-base flex items-center gap-1.5">
+              CEDO <span className="text-xs px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-semibold">CRM</span>
+            </div>
+            <p className="text-[11px] text-slate-400">Enterprise Growth Suite</p>
+          </div>
         </div>
+
+        {isMobile && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            aria-label="Close navigation"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       {/* Main Navigation */}
@@ -57,10 +83,11 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={isMobile ? onClose : undefined}
               className={cn(
                 "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all group",
                 isActive
-                  ? "bg-blue-600 text-white shadow-sm shadow-blue-900/40"
+                  ? "bg-blue-600 text-white shadow-sm shadow-blue-900/40 font-semibold"
                   : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/70"
               )}
             >
@@ -92,7 +119,11 @@ export function Sidebar() {
 
       {/* Workspace / Current User Card */}
       <div className="p-3 border-t border-slate-800">
-        <div className="flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition cursor-pointer">
+        <Link
+          href="/settings"
+          onClick={isMobile ? onClose : undefined}
+          className="flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition cursor-pointer"
+        >
           <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white font-medium flex items-center justify-center text-xs ring-2 ring-slate-700">
             AM
           </div>
@@ -101,7 +132,7 @@ export function Sidebar() {
             <p className="text-[10px] text-slate-400 truncate">Sales Director</p>
           </div>
           <ChevronRight className="h-4 w-4 text-slate-500 shrink-0" />
-        </div>
+        </Link>
       </div>
     </aside>
   );

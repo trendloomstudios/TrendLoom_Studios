@@ -90,28 +90,28 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
             Tasks & Action Items
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 mt-0.5">
             Organize sales follow-ups, contract reviews, and client deliverables.
           </p>
         </div>
-        <Button onClick={() => setShowModal(true)} className="gap-2 shadow-xs">
+        <Button onClick={() => setShowModal(true)} className="gap-2 shadow-xs w-full sm:w-auto h-9">
           <Plus className="h-4 w-4" />
           <span>New Task</span>
         </Button>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 border-b border-slate-200 pb-2">
+      <div className="flex gap-1.5 overflow-x-auto pb-1.5 border-b border-slate-200 touch-pan-x no-scrollbar">
         {["all", "pending", "in_progress", "completed"].map((st) => (
           <button
             key={st}
             onClick={() => setStatusFilter(st)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all shrink-0 ${
               statusFilter === st
                 ? "bg-slate-900 text-white shadow-2xs"
                 : "text-slate-600 hover:bg-slate-100"
@@ -125,22 +125,22 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
       {/* Task List */}
       <div className="space-y-2.5">
         {filteredTasks.length === 0 ? (
-          <Card className="py-12 text-center text-slate-400 text-xs shadow-2xs">
+          <Card className="py-12 text-center text-slate-400 text-xs shadow-2xs border border-slate-200">
             No tasks found in this view.
           </Card>
         ) : (
           filteredTasks.map((task) => (
             <Card
               key={task.id}
-              className={`p-4 shadow-2xs transition-all hover:border-slate-300 ${
-                task.status === "completed" ? "bg-slate-50/70 opacity-70" : "bg-white"
+              className={`p-3.5 sm:p-4 shadow-2xs transition-all hover:border-slate-300 border border-slate-200 ${
+                task.status === "completed" ? "bg-slate-50/70 opacity-75" : "bg-white"
               }`}
             >
-              <div className="flex items-start gap-3.5">
+              <div className="flex items-start gap-3">
                 <button
                   type="button"
                   onClick={() => toggleTaskStatus(task.id)}
-                  className="mt-0.5 text-slate-400 hover:text-blue-600 transition"
+                  className="p-1 -ml-1 text-slate-400 hover:text-blue-600 transition shrink-0 min-h-[36px] min-w-[36px] flex items-center justify-center rounded-lg"
                   aria-label={
                     task.status === "completed"
                       ? "Mark task incomplete"
@@ -155,9 +155,9 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
                 </button>
 
                 <div className="flex-1 min-w-0 space-y-1">
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3">
                     <span
-                      className={`text-sm font-semibold ${
+                      className={`text-xs sm:text-sm font-semibold ${
                         task.status === "completed"
                           ? "line-through text-slate-400"
                           : "text-slate-900"
@@ -165,22 +165,24 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
                     >
                       {task.title}
                     </span>
-                    {getPriorityBadge(task.priority)}
+                    <div className="self-start sm:self-auto">
+                      {getPriorityBadge(task.priority)}
+                    </div>
                   </div>
 
                   {task.description && (
                     <p className="text-xs text-slate-500">{task.description}</p>
                   )}
 
-                  <div className="flex items-center gap-4 text-xs text-slate-400 pt-1">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-400 pt-1">
                     <div className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5 text-slate-400" />
+                      <Clock className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                       <span>Due {formatDate(task.due_date)}</span>
                     </div>
                     {task.related_to_title && (
                       <div className="flex items-center gap-1 text-slate-600">
-                        <Briefcase className="h-3.5 w-3.5 text-slate-400" />
-                        <span className="truncate">{task.related_to_title}</span>
+                        <Briefcase className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                        <span className="truncate max-w-[150px]">{task.related_to_title}</span>
                       </div>
                     )}
                   </div>
@@ -191,20 +193,30 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
         )}
       </div>
 
-      {/* Create Task Modal */}
+      {/* Create Task Responsive Modal / Bottom Sheet */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-lg w-full overflow-hidden animate-in zoom-in-95">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-xs p-0 sm:p-4 animate-in fade-in">
+          <div
+            className="fixed inset-0"
+            onClick={() => setShowModal(false)}
+            aria-hidden="true"
+          />
+          <div className="relative bg-white rounded-t-2xl sm:rounded-2xl border border-slate-200 shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto z-10 animate-in slide-in-from-bottom sm:zoom-in-95">
+            {/* Grab Handle for mobile */}
+            <div className="sm:hidden flex justify-center pt-3 pb-1">
+              <div className="h-1 w-10 rounded-full bg-slate-300" />
+            </div>
+
+            <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 sticky top-0 bg-white z-10">
               <h2 className="text-base font-bold text-slate-900">Create Task</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <form onSubmit={handleCreateTask} className="p-6 space-y-4">
+            <form onSubmit={handleCreateTask} className="p-5 sm:p-6 space-y-4">
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-700">Task Title *</label>
                 <Input
@@ -226,7 +238,7 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-700">Priority Level</label>
                   <select
@@ -260,7 +272,7 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
                 <Button type="button" variant="outline" onClick={() => setShowModal(false)}>
                   Cancel
                 </Button>

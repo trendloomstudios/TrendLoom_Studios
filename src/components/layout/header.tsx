@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
+  Menu,
   Search,
   Bell,
   Plus,
@@ -11,40 +12,59 @@ import {
   AlertCircle,
   LogOut,
   User,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
   isConfigured?: boolean;
+  onOpenMobileMenu?: () => void;
 }
 
-export function Header({ isConfigured = false }: HeaderProps) {
+export function Header({ isConfigured = false, onOpenMobileMenu }: HeaderProps) {
   const [showQuickMenu, setShowQuickMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   return (
-    <header className="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between sticky top-0 z-20 shadow-2xs">
-      {/* Search Bar */}
-      <div className="flex items-center gap-4 w-96 max-w-full">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+    <header className="h-16 border-b border-slate-200 bg-white px-3 sm:px-6 flex items-center justify-between sticky top-0 z-20 shadow-2xs gap-2">
+      {/* Left: Hamburger Menu (Mobile) + Logo + Search */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+        <button
+          type="button"
+          onClick={onOpenMobileMenu}
+          className="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition shrink-0"
+          aria-label="Open mobile navigation"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+
+        {/* Mobile Brand Monogram */}
+        <div className="md:hidden flex items-center gap-1.5 shrink-0">
+          <div className="h-7 w-7 rounded-md bg-blue-600 flex items-center justify-center text-white shadow-xs">
+            <Sparkles className="h-4 w-4 text-blue-100" />
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative w-full max-w-xs sm:max-w-sm md:w-80">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
           <input
             type="text"
-            placeholder="Search deals, leads, contacts..."
-            className="w-full pl-9 pr-4 py-1.5 text-xs rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-slate-800 placeholder:text-slate-400"
+            placeholder="Search CRM..."
+            className="w-full pl-8 sm:pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 bg-slate-50/70 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-slate-800 placeholder:text-slate-400 truncate"
           />
         </div>
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {/* Database Connection Pill */}
         <Link
           href="/settings"
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-colors ${
+          className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium border transition-colors ${
             isConfigured
-              ? "bg-emerald-50 text-emerald-700 border-emerald-200/80 hover:bg-emerald-100"
-              : "bg-amber-50 text-amber-700 border-amber-200/80 hover:bg-amber-100"
+              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+              : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
           }`}
           title={
             isConfigured
@@ -52,12 +72,12 @@ export function Header({ isConfigured = false }: HeaderProps) {
               : "Running in interactive demo mode with mock data"
           }
         >
-          <Database className="h-3.5 w-3.5" />
-          <span>{isConfigured ? "Supabase Live" : "Demo Mode"}</span>
+          <Database className="h-3.5 w-3.5 shrink-0" />
+          <span className="hidden sm:inline">{isConfigured ? "Supabase Live" : "Demo Mode"}</span>
           {isConfigured ? (
-            <CheckCircle2 className="h-3 w-3 text-emerald-600" />
+            <CheckCircle2 className="h-3 w-3 text-emerald-600 shrink-0" />
           ) : (
-            <AlertCircle className="h-3 w-3 text-amber-600" />
+            <AlertCircle className="h-3 w-3 text-amber-600 shrink-0" />
           )}
         </Link>
 
@@ -66,10 +86,10 @@ export function Header({ isConfigured = false }: HeaderProps) {
           <Button
             size="sm"
             onClick={() => setShowQuickMenu(!showQuickMenu)}
-            className="gap-1.5 shadow-xs"
+            className="gap-1 px-2.5 sm:px-3 text-xs shadow-xs h-8"
           >
             <Plus className="h-3.5 w-3.5" />
-            <span>Create</span>
+            <span className="hidden sm:inline">Create</span>
           </Button>
 
           {showQuickMenu && (
@@ -78,7 +98,7 @@ export function Header({ isConfigured = false }: HeaderProps) {
                 className="fixed inset-0 z-30"
                 onClick={() => setShowQuickMenu(false)}
               />
-              <div className="absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg z-40 text-xs animate-in fade-in zoom-in-95">
+              <div className="absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl z-40 text-xs animate-in fade-in zoom-in-95">
                 <Link
                   href="/leads"
                   onClick={() => setShowQuickMenu(false)}
@@ -119,22 +139,23 @@ export function Header({ isConfigured = false }: HeaderProps) {
         {/* Notifications */}
         <button
           type="button"
-          className="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition"
+          className="relative p-1.5 sm:p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition"
           aria-label="Notifications"
         >
           <Bell className="h-4 w-4" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-600 ring-2 ring-white" />
+          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-blue-600 ring-2 ring-white" />
         </button>
 
-        <div className="h-5 w-px bg-slate-200 mx-1" />
+        <div className="h-4 w-px bg-slate-200 mx-0.5" />
 
         {/* Profile Avatar & Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 transition"
+            className="flex items-center gap-2 p-0.5 sm:p-1 rounded-lg hover:bg-slate-100 transition"
+            aria-label="User menu"
           >
-            <div className="h-8 w-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-semibold">
+            <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-semibold">
               AM
             </div>
           </button>
@@ -145,7 +166,7 @@ export function Header({ isConfigured = false }: HeaderProps) {
                 className="fixed inset-0 z-30"
                 onClick={() => setShowUserMenu(false)}
               />
-              <div className="absolute right-0 mt-2 w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-lg z-40 text-xs">
+              <div className="absolute right-0 mt-2 w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-xl z-40 text-xs">
                 <div className="px-2 py-1.5 border-b border-slate-100">
                   <p className="font-semibold text-slate-900">Alex Morgan</p>
                   <p className="text-[11px] text-slate-500">alex@cedo.io</p>
