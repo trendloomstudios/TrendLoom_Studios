@@ -33,12 +33,12 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: Company[
   const [formData, setFormData] = useState({
     name: "",
     domain: "",
-    industry: "Enterprise SaaS",
-    size: "51-200" as const,
+    industry: "",
+    size: "11-50" as const,
     tier: "Mid-Market" as CompanyTier,
-    annual_revenue: 10000000,
-    city: "San Francisco",
-    country: "USA",
+    annual_revenue: 0,
+    city: "",
+    country: "",
   });
 
   const filteredCompanies = companies.filter((c) => {
@@ -71,12 +71,12 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: Company[
     setFormData({
       name: "",
       domain: "",
-      industry: "Enterprise SaaS",
-      size: "51-200",
+      industry: "",
+      size: "11-50",
       tier: "Mid-Market",
-      annual_revenue: 10000000,
-      city: "San Francisco",
-      country: "USA",
+      annual_revenue: 0,
+      city: "",
+      country: "",
     });
   };
 

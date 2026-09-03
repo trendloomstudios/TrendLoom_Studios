@@ -13,7 +13,6 @@ import {
   FileText,
   Clock,
   ArrowUpRight,
-  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -45,7 +44,7 @@ export default async function DashboardPage() {
         <div className="flex items-center gap-2">
           <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-medium text-slate-600 shadow-2xs">
             <Calendar className="h-3.5 w-3.5 text-slate-400" />
-            <span>Q1 2026</span>
+            <span>Live Data</span>
           </div>
           <Link href="/deals" className="flex-1 sm:flex-initial">
             <Button size="sm" className="shadow-xs w-full sm:w-auto h-8 text-xs">
@@ -73,8 +72,7 @@ export default async function DashboardPage() {
             </div>
             <div className="flex items-center gap-1 mt-1 text-xs text-emerald-600 font-medium">
               <TrendingUp className="h-3 w-3" />
-              <span>+18.4%</span>
-              <span className="text-slate-400 font-normal ml-1">vs last quarter</span>
+              <span>Won Deals Total</span>
             </div>
           </CardContent>
         </Card>
@@ -114,7 +112,7 @@ export default async function DashboardPage() {
               {metrics.active_leads_count}
             </div>
             <div className="flex items-center gap-1 mt-1 text-xs text-purple-600 font-medium">
-              <span>78% avg qualification score</span>
+              <span>Total in database</span>
             </div>
           </CardContent>
         </Card>
@@ -134,7 +132,7 @@ export default async function DashboardPage() {
               {metrics.win_rate}%
             </div>
             <div className="flex items-center gap-1 mt-1 text-xs text-amber-600 font-medium">
-              <span>Industry benchmark: 22%</span>
+              <span>Closed won conversion</span>
             </div>
           </CardContent>
         </Card>
@@ -201,22 +199,6 @@ export default async function DashboardPage() {
                 </div>
               </div>
             ))}
-
-            {/* Monthly Trend Visual Indicator */}
-            <div className="pt-4 border-t border-slate-100">
-              <div className="text-xs font-semibold text-slate-500 mb-2.5 uppercase tracking-wider">
-                Monthly Pipeline & Revenue Velocity
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
-                {metrics.monthly_revenue_history.map((m) => (
-                  <div key={m.month} className="text-center p-2 rounded-lg bg-slate-50 border border-slate-100">
-                    <p className="text-[10px] sm:text-[11px] font-semibold text-slate-500">{m.month}</p>
-                    <p className="text-xs font-bold text-slate-800 mt-0.5">{formatCurrency(m.won)}</p>
-                    <p className="text-[10px] text-blue-600 font-medium truncate">Pipe: {formatCurrency(m.pipeline)}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </CardContent>
         </Card>
 
@@ -232,39 +214,45 @@ export default async function DashboardPage() {
             </Link>
           </CardHeader>
           <CardContent className="p-4 sm:p-5 space-y-2.5">
-            {urgentTasks.map((task) => (
-              <div
-                key={task.id}
-                className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 transition space-y-1"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <span className="text-xs font-semibold text-slate-800 line-clamp-1">
-                    {task.title}
-                  </span>
-                  <Badge
-                    variant={
-                      task.priority === "urgent"
-                        ? "destructive"
-                        : task.priority === "high"
-                        ? "warning"
-                        : "secondary"
-                    }
-                    className="text-[10px] px-1.5 py-0 h-4 uppercase shrink-0"
-                  >
-                    {task.priority}
-                  </Badge>
-                </div>
-                {task.description && (
-                  <p className="text-[11px] text-slate-500 line-clamp-1">
-                    {task.description}
-                  </p>
-                )}
-                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-slate-400 pt-0.5">
-                  <Clock className="h-3 w-3 shrink-0" />
-                  <span>Due {formatDate(task.due_date)}</span>
-                </div>
+            {urgentTasks.length === 0 ? (
+              <div className="py-8 text-center text-xs text-slate-400">
+                No pending tasks. Create tasks to track action items.
               </div>
-            ))}
+            ) : (
+              urgentTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 transition space-y-1"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-xs font-semibold text-slate-800 line-clamp-1">
+                      {task.title}
+                    </span>
+                    <Badge
+                      variant={
+                        task.priority === "urgent"
+                          ? "destructive"
+                          : task.priority === "high"
+                          ? "warning"
+                          : "secondary"
+                      }
+                      className="text-[10px] px-1.5 py-0 h-4 uppercase shrink-0"
+                    >
+                      {task.priority}
+                    </Badge>
+                  </div>
+                  {task.description && (
+                    <p className="text-[11px] text-slate-500 line-clamp-1">
+                      {task.description}
+                    </p>
+                  )}
+                  <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-slate-400 pt-0.5">
+                    <Clock className="h-3 w-3 shrink-0" />
+                    <span>Due {formatDate(task.due_date)}</span>
+                  </div>
+                </div>
+              ))
+            )}
           </CardContent>
         </Card>
       </div>
@@ -278,48 +266,54 @@ export default async function DashboardPage() {
             <CardDescription className="text-xs">Live log of communications and deal updates</CardDescription>
           </CardHeader>
           <CardContent className="p-4 sm:p-5">
-            <div className="space-y-3.5">
-              {metrics.recent_activities.map((act) => {
-                const getIcon = () => {
-                  switch (act.type) {
-                    case "call":
-                      return <Phone className="h-3.5 w-3.5 text-blue-600" />;
-                    case "email":
-                      return <Mail className="h-3.5 w-3.5 text-purple-600" />;
-                    case "meeting":
-                      return <Users className="h-3.5 w-3.5 text-emerald-600" />;
-                    case "deal_stage_changed":
-                      return <TrendingUp className="h-3.5 w-3.5 text-amber-600" />;
-                    default:
-                      return <FileText className="h-3.5 w-3.5 text-slate-600" />;
-                  }
-                };
+            {metrics.recent_activities.length === 0 ? (
+              <div className="py-8 text-center text-xs text-slate-400">
+                No recent activity logged yet.
+              </div>
+            ) : (
+              <div className="space-y-3.5">
+                {metrics.recent_activities.map((act) => {
+                  const getIcon = () => {
+                    switch (act.type) {
+                      case "call":
+                        return <Phone className="h-3.5 w-3.5 text-blue-600" />;
+                      case "email":
+                        return <Mail className="h-3.5 w-3.5 text-purple-600" />;
+                      case "meeting":
+                        return <Users className="h-3.5 w-3.5 text-emerald-600" />;
+                      case "deal_stage_changed":
+                        return <TrendingUp className="h-3.5 w-3.5 text-amber-600" />;
+                      default:
+                        return <FileText className="h-3.5 w-3.5 text-slate-600" />;
+                    }
+                  };
 
-                return (
-                  <div key={act.id} className="flex items-start gap-2.5 sm:gap-3 text-xs">
-                    <div className="h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 border border-slate-200">
-                      {getIcon()}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-                        <p className="font-semibold text-slate-800">{act.title}</p>
-                        <span className="text-[10px] sm:text-[11px] text-slate-400 shrink-0">
-                          {formatRelativeTime(act.created_at)}
-                        </span>
+                  return (
+                    <div key={act.id} className="flex items-start gap-2.5 sm:gap-3 text-xs">
+                      <div className="h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 border border-slate-200">
+                        {getIcon()}
                       </div>
-                      {act.description && (
-                        <p className="text-[11px] text-slate-500 mt-0.5">
-                          {act.description}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
+                          <p className="font-semibold text-slate-800">{act.title}</p>
+                          <span className="text-[10px] sm:text-[11px] text-slate-400 shrink-0">
+                            {formatRelativeTime(act.created_at)}
+                          </span>
+                        </div>
+                        {act.description && (
+                          <p className="text-[11px] text-slate-500 mt-0.5">
+                            {act.description}
+                          </p>
+                        )}
+                        <p className="text-[10px] text-slate-400 mt-0.5">
+                          By <span className="font-medium text-slate-600">{act.user_name}</span>
                         </p>
-                      )}
-                      <p className="text-[10px] text-slate-400 mt-0.5">
-                        By <span className="font-medium text-slate-600">{act.user_name}</span>
-                      </p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -332,7 +326,7 @@ export default async function DashboardPage() {
           <CardContent className="p-4 sm:p-5 space-y-3 sm:space-y-4 text-xs">
             <div className="p-3.5 rounded-lg border border-blue-100 bg-blue-50/50 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-blue-950">Next.js App Router (v16)</span>
+                <span className="font-semibold text-blue-950">Next.js App Router</span>
                 <Badge variant="default" className="text-[10px]">Active</Badge>
               </div>
               <p className="text-slate-600 text-[11px]">
@@ -343,20 +337,20 @@ export default async function DashboardPage() {
             <div className="p-3.5 rounded-lg border border-indigo-100 bg-indigo-50/50 space-y-1">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-indigo-950">Supabase PostgreSQL & Auth</span>
-                <Badge variant="indigo" className="text-[10px]">Ready</Badge>
+                <Badge variant="indigo" className="text-[10px]">Connected</Badge>
               </div>
               <p className="text-slate-600 text-[11px]">
-                Schema defined in <code className="bg-white/80 px-1 py-0.5 rounded border border-indigo-200 text-[10px]">supabase/schema.sql</code> with Row Level Security.
+                Live connected to remote Supabase instance with Row Level Security.
               </p>
             </div>
 
             <div className="p-3.5 rounded-lg border border-slate-200 bg-white space-y-1">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-900">Tailwind CSS & Radix UI</span>
+                <span className="font-semibold text-slate-900">Tailwind CSS & Roboto Font</span>
                 <Badge variant="secondary" className="text-[10px]">Styled</Badge>
               </div>
               <p className="text-slate-600 text-[11px]">
-                Fully mobile responsive design system with touch-optimized layouts.
+                Clean responsive design system optimized for mobile and desktop.
               </p>
             </div>
 
@@ -368,7 +362,7 @@ export default async function DashboardPage() {
               </Link>
               <Link href="/settings" className="w-full sm:w-auto">
                 <Button size="sm" className="text-xs w-full sm:w-auto h-8">
-                  Configure Database
+                  Configure Settings
                 </Button>
               </Link>
             </div>

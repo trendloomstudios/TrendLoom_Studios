@@ -33,12 +33,12 @@ export function DealsView({ initialDeals }: { initialDeals: Deal[] }) {
   // New Deal State with lazy initialization to adhere to React pure render rules
   const [formData, setFormData] = useState(() => ({
     title: "",
-    amount: 50000,
+    amount: 0,
     company_name: "",
     contact_name: "",
     stage: "discovery" as DealStage,
-    probability: 25,
-    expected_close_date: "2026-04-15",
+    probability: 20,
+    expected_close_date: new Date(Date.now() + 30 * 86400000).toISOString().split("T")[0],
   }));
 
   const moveDeal = (dealId: string, direction: "next" | "prev") => {

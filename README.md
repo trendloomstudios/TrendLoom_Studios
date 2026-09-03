@@ -111,8 +111,7 @@ CEDO_CRM/
 │   │       ├── input.tsx
 │   │       └── table.tsx
 │   ├── lib/
-│   │   ├── data-service.ts         # Resilient data layer (Supabase + Demo fallback)
-│   │   ├── mock-data.ts            # Enterprise mock dataset
+│   │   ├── data-service.ts         # Direct Supabase data access layer
 │   │   ├── utils.ts                # Formatting and class merging helpers
 │   │   └── supabase/               # Supabase SSR client, server, and middleware
 │   │       ├── client.ts

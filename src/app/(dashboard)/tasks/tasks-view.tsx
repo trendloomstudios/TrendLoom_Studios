@@ -26,8 +26,8 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
   const [formData, setFormData] = useState(() => ({
     title: "",
     description: "",
-    due_date: "2026-03-10",
-    priority: "high" as TaskPriority,
+    due_date: new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0],
+    priority: "medium" as TaskPriority,
     related_to_title: "",
   }));
 
@@ -59,8 +59,8 @@ export function TasksView({ initialTasks }: { initialTasks: Task[] }) {
     setFormData({
       title: "",
       description: "",
-      due_date: "2026-03-10",
-      priority: "high",
+      due_date: new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0],
+      priority: "medium",
       related_to_title: "",
     });
   };

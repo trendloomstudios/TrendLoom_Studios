@@ -40,9 +40,9 @@ export function LeadsView({ initialLeads }: { initialLeads: Lead[] }) {
     phone: "",
     company: "",
     title: "",
-    estimated_value: 50000,
+    estimated_value: 0,
     source: "website",
-    score: 75,
+    score: 50,
     notes: "",
   });
 

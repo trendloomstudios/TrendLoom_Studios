@@ -148,7 +148,7 @@ export function SettingsView({ isConfigured }: { isConfigured: boolean }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="space-y-1">
               <label className="text-xs font-semibold text-slate-700">Workspace Name</label>
-              <Input defaultValue="CEDO B2B Enterprise" />
+              <Input defaultValue="TrendLoom Studio" />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-semibold text-slate-700">Base Currency</label>
@@ -162,7 +162,7 @@ export function SettingsView({ isConfigured }: { isConfigured: boolean }) {
             </div>
             <div className="space-y-1">
               <label className="text-xs font-semibold text-slate-700">Timezone</label>
-              <Input defaultValue="America/New_York (UTC-5)" />
+              <Input defaultValue="UTC" />
             </div>
           </div>
         </CardContent>
@@ -173,36 +173,27 @@ export function SettingsView({ isConfigured }: { isConfigured: boolean }) {
         <CardHeader className="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <CardTitle className="text-sm font-semibold">Team Members</CardTitle>
-            <CardDescription className="text-xs">Active sales seats and access permissions</CardDescription>
+            <CardDescription className="text-xs">Active organization seats and access permissions</CardDescription>
           </div>
           <Button size="sm" variant="outline" className="text-xs self-start sm:self-auto h-8">
             Invite Colleague
           </Button>
         </CardHeader>
         <CardContent className="p-4 sm:p-5 space-y-2.5">
-          {[
-            { name: "Alex Morgan", email: "alex@cedo.io", role: "Admin", initials: "AM" },
-            { name: "Jordan Lee", email: "jordan@cedo.io", role: "Sales Rep", initials: "JL" },
-            { name: "Taylor Rivera", email: "taylor@cedo.io", role: "Sales Rep", initials: "TR" },
-          ].map((user) => (
-            <div
-              key={user.email}
-              className="flex items-center justify-between p-3 rounded-lg border border-slate-200/70 hover:bg-slate-50 transition"
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-slate-900 text-white font-semibold text-xs flex items-center justify-center shrink-0">
-                  {user.initials}
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-slate-900">{user.name}</p>
-                  <p className="text-[11px] text-slate-500">{user.email}</p>
-                </div>
+          <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200/70 hover:bg-slate-50 transition">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-full bg-slate-900 text-white font-semibold text-xs flex items-center justify-center shrink-0">
+                TL
               </div>
-              <Badge variant="secondary" className="text-[10px]">
-                {user.role}
-              </Badge>
+              <div>
+                <p className="text-xs font-semibold text-slate-900">Workspace Owner</p>
+                <p className="text-[11px] text-slate-500">Authenticated Member</p>
+              </div>
             </div>
-          ))}
+            <Badge variant="secondary" className="text-[10px]">
+              Admin
+            </Badge>
+          </div>
         </CardContent>
       </Card>
     </div>
