@@ -20,8 +20,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 
 export const metadata = {
-  title: "Executive Dashboard | CEDO CRM",
-  description: "B2B CRM Pipeline and Performance Analytics",
+  title: "Executive Dashboard | TrendLoom Studios CRM Workspace",
+  description: "B2B CRM Pipeline and Performance Analytics Workspace",
 };
 
 export default async function DashboardPage() {
@@ -320,7 +320,7 @@ export default async function DashboardPage() {
         {/* Quick Launchpad & Tech Stack Overview */}
         <Card className="shadow-2xs border border-slate-200">
           <CardHeader className="p-4 sm:p-5 border-b border-slate-100">
-            <CardTitle className="text-sm font-semibold">CEDO CRM Architecture</CardTitle>
+            <CardTitle className="text-sm font-semibold">TrendLoom Studios CRM Workspace</CardTitle>
             <CardDescription className="text-xs">Enterprise deployment & stack configuration</CardDescription>
           </CardHeader>
           <CardContent className="p-4 sm:p-5 space-y-3 sm:space-y-4 text-xs">

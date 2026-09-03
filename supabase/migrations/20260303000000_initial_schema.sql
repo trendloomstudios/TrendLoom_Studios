@@ -1,5 +1,5 @@
 -- ==============================================================================
--- CEDO CRM - Supabase Database Schema
+-- TrendLoom Studios CRM Workspace - Supabase Database Schema
 -- ==============================================================================
 
 -- 1. Enable UUID extension

@@ -51,10 +51,10 @@ export default function SignupPage() {
           <Sparkles className="h-6 w-6" />
         </div>
         <h2 className="text-2xl font-bold tracking-tight text-white">
-          Create CEDO CRM Account
+          Create TrendLoom Studios CRM Account
         </h2>
         <p className="text-xs text-slate-400 mt-1">
-          Deploy your dedicated sales & deal management platform
+          Deploy your dedicated sales & deal management platform workspace
         </p>
       </div>
 

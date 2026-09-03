@@ -22,8 +22,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "CEDO CRM | B2B Growth Platform",
-  description: "Enterprise B2B Customer Relationship & Deal Pipeline Management",
+  title: "TrendLoom Studios CRM Workspace | B2B Growth Platform",
+  description: "Enterprise B2B Customer Relationship & Deal Pipeline Management Workspace",
 };
 
 export default function RootLayout({

@@ -80,7 +80,7 @@ export function SettingsView({ isConfigured }: { isConfigured: boolean }) {
                 Copy the <strong>Project URL</strong> and <strong>Publishable / Anon API Key</strong>.
               </li>
               <li>
-                Open <code className="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-900 font-mono text-[11px]">.env.local</code> in your CEDO_CRM root directory and paste them.
+                Open <code className="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-900 font-mono text-[11px]">.env.local</code> in your project root directory and paste them.
               </li>
               <li>
                 Open the Supabase <strong>SQL Editor</strong> and run the schema script located at:{" "}

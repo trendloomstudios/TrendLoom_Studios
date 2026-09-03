@@ -2,7 +2,7 @@ import { getCompanies } from "@/lib/data-service";
 import { CompaniesView } from "./companies-view";
 
 export const metadata = {
-  title: "Companies & Accounts | CEDO CRM",
+  title: "Companies & Accounts | TrendLoom Studios CRM Workspace",
   description: "Track enterprise accounts, company details, and customer tiers",
 };
 

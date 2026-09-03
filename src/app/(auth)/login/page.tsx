@@ -42,10 +42,10 @@ export default function LoginPage() {
           <Sparkles className="h-6 w-6" />
         </div>
         <h2 className="text-2xl font-bold tracking-tight text-white">
-          Sign in to CEDO CRM
+          Sign in to TrendLoom Studios CRM Workspace
         </h2>
         <p className="text-xs text-slate-400 mt-1">
-          Enterprise B2B Customer Relationship & Pipeline Management
+          Enterprise B2B Customer Relationship & Pipeline Management Workspace
         </p>
       </div>
 

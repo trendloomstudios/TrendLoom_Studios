@@ -2,7 +2,7 @@ import { isSupabaseConfigured } from "@/lib/data-service";
 import { SettingsView } from "./settings-view";
 
 export const metadata = {
-  title: "Settings & Setup | CEDO CRM",
+  title: "Settings & Setup | TrendLoom Studios CRM Workspace",
   description: "Configure Supabase database, organization profiles, and team members",
 };
 

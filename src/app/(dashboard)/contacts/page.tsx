@@ -2,7 +2,7 @@ import { getContacts } from "@/lib/data-service";
 import { ContactsView } from "./contacts-view";
 
 export const metadata = {
-  title: "Contacts Directory | CEDO CRM",
+  title: "Contacts Directory | TrendLoom Studios CRM Workspace",
   description: "Manage client and stakeholder contact details",
 };
 

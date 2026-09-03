@@ -2,7 +2,7 @@ import { getLeads } from "@/lib/data-service";
 import { LeadsView } from "./leads-view";
 
 export const metadata = {
-  title: "Leads Management | CEDO CRM",
+  title: "Leads Management | TrendLoom Studios CRM Workspace",
   description: "Manage and qualify inbound and outbound B2B leads",
 };
 

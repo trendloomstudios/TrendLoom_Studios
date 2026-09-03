@@ -2,7 +2,7 @@ import { getTasks } from "@/lib/data-service";
 import { TasksView } from "./tasks-view";
 
 export const metadata = {
-  title: "Tasks & Deliverables | CEDO CRM",
+  title: "Tasks & Deliverables | TrendLoom Studios CRM Workspace",
   description: "Track action items, follow-ups, and sales tasks",
 };
 

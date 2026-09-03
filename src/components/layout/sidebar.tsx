@@ -45,15 +45,15 @@ export function Sidebar({ onClose, isMobile = false }: SidebarProps) {
     >
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-5 border-b border-slate-800">
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20 shrink-0">
             <Sparkles className="h-5 w-5 text-blue-100" />
           </div>
-          <div>
-            <div className="text-white font-bold tracking-tight text-base flex items-center gap-1.5">
-              CEDO <span className="text-xs px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-semibold">CRM</span>
+          <div className="min-w-0">
+            <div className="text-white font-bold tracking-tight text-sm flex items-center gap-1.5 truncate">
+              TrendLoom <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-semibold uppercase">CRM</span>
             </div>
-            <p className="text-[11px] text-slate-400">Enterprise Growth Suite</p>
+            <p className="text-[10px] text-slate-400 truncate">Studios CRM Workspace</p>
           </div>
         </div>
 
