@@ -36,7 +36,9 @@ export default function LoginPage() {
   };
 
   const handleDemoSignIn = () => {
-    router.push("/");
+    document.cookie = "demo_mode=true; path=/; max-age=86400; SameSite=Lax";
+    router.push("/deals");
+    router.refresh();
   };
 
   return (
